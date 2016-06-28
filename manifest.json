@@ -1,14 +1,14 @@
 {
   "manifest_version": 2,
 
-  "name": "Youtube downloader by Jason Jason (lum, seibel)",
-  "description": "Click the button on a youtube link to download it as an mp3",
+  "name": "Auto Download Youtube as an MP3",
+  "description": "Click the button while on a youtube video page to download it as an mp3 in a new tab.",
   "version": "1.0",
 
   "browser_action": {
     "default_icon": "icon.png",
     
-	"default_title": "Youtube download"
+	"default_title": "Auto Download Youtube as an MP3"
   },
   "background": {
   "scripts": ["background.js"]
@@ -25,7 +25,6 @@
     ],
   "permissions": [
     "activeTab", 
-	"tabs",
-    "https://ajax.googleapis.com/"
+	"tabs"
   ]
 }
