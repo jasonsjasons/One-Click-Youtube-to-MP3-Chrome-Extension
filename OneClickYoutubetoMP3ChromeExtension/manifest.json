@@ -4,6 +4,7 @@
   "name": "Youtube downloader by Jason Jason (lum, seibel)",
   "description": "Click the button on a youtube link to download it as an mp3",
   "version": "1.0",
+  "options_page": "options.html",
 
   "browser_action": {
     "default_icon": "icon.png",
