@@ -1,14 +1,14 @@
 {
   "manifest_version": 2,
 
-  "name": "Auto Download Youtube as an MP3",
+  "name": "One Click Youtube to MP3",
   "description": "Click the button while on a youtube video page to download it as an mp3 in a new tab.",
   "version": "1.0",
 
   "browser_action": {
     "default_icon": "icon.png",
     
-	"default_title": "Auto Download Youtube as an MP3"
+	"default_title": "One Click Youtube to MP3"
   },
   "background": {
   "scripts": ["background.js"]
