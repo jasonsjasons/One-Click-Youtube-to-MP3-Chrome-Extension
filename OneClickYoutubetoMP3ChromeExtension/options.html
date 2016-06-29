@@ -3,17 +3,19 @@
 	<title>Options</title>
 	<script type="text/javascript" src="options.js"></script>
 </head>
-<body>
+<body onload="loadOptions()">
 	<h1>Options</h1>
 	<p> Do you want to rename the file? <p>
-	<select id="rename">
-		<option value="yes">Yes</option>
+	<select id="rename" >
 		<option value="no">No</option>
+		<option value="yes">Yes</option>
 	</select>
 	<form>
 		Where do you want to save the song?:<br>
 		<input type="text" name="repository">
 	</form>
+	<button onclick="saveOptions()">Save</button>
+	<button onclick="eraseOptions()">Revert to default </button>
 	
 </body>
 </html>
