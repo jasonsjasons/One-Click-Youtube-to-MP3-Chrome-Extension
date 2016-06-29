@@ -3,9 +3,9 @@ function loadoptions() {
 
   chrome.storage.sync.get({
     savedsetting: 'no', 
-	saveddirectory: "success"
-    
-  }, function(items) {
+	saveddirectory: "success" 
+  }, 
+	function(items) {
     document.getElementById('rename').value = items.savedsetting;
 	document.getElementById('repository').value = items.saveddirectory;
 
