@@ -35,8 +35,14 @@
 	 });
  chrome.runtime.onMessage.addListener(function(request) {				
     if (request.greeting == "hello")
+	{
 	  console.log("Message received");
-      console.log(request.theurl);
+		chrome.downloads.download({
+      		url: request.theurl,
+			filename: "test.mp3"		
+		});
+	}
+    console.log(request.theurl);
  });
 
 	 
