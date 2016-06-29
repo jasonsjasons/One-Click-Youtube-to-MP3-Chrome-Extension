@@ -12,14 +12,12 @@ function runthis()
 }
 
 chrome.runtime.onMessage.addListener(
-  function(request) {
+    function(request) {
     if (request.greeting == "hello")
       runthis();
   });
-
   
-  chrome.runtime.onMessage.addListener(function(request) {
-		
+ chrome.runtime.onMessage.addListener(function(request) {		
     if (request.greeting == "ready")
 	{
 	  console.log("Message received");	  
@@ -32,13 +30,11 @@ chrome.runtime.onMessage.addListener(
 	  console.log("file name length is: "+thefilename.length);
 	  if (thefilename.length ==0)
 	  {	  
-		console.log("123");	
-		
-			chrome.downloads.download({
-				url: request.theurl,
-				filename: request.defaulttitle+"fail.mp3"		
-			});
-		
+		console.log("123");			
+		chrome.downloads.download({
+			url: request.theurl,
+			filename: request.defaulttitle+"fail.mp3"		
+		});		
 	  }
 	  else
 	  {
@@ -47,15 +43,17 @@ chrome.runtime.onMessage.addListener(
       		url: request.theurl,
 			filename: thefilename+".mp3"
 		  });
-	  }
-	  
-	});
-	  
-		
-		
-		
-		
+	  }	  
+	});		
 	}
   });
    
- 
+ chrome.runtime.onMessage.addListener(function(request) {		
+    if (request.greeting == "convert")
+	{
+		while (true)
+			{
+				document.getElementByClassName("button fullWidth").click();
+			}
+	}
+ });
