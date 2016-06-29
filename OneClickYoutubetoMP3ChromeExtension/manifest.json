@@ -1,20 +1,20 @@
 {
   "manifest_version": 2,
 
-  "name": "One Click Youtube to MP3",
-  "description": "Click the button while on a youtube video page to download it as an mp3 in a new tab.",
+  "name": "Youtube downloader by Jason Jason (lum, seibel)",
+  "description": "Click the button on a youtube link to download it as an mp3",
   "version": "1.0",
 
   "browser_action": {
     "default_icon": "icon.png",
     
-	"default_title": "One Click Youtube to MP3"
+	"default_title": "Youtube download"
   },
   "background": {
   "scripts": ["background.js"]
     
   },
-  "content_scripts": [
+  /*"content_scripts": [
         {
         "matches": [
             "http://www.youtubeinmp3.com/download*"
@@ -22,9 +22,11 @@
         "js": ["content.js"],
         "run_at": "document_end"         
         }
-    ],
+    ],*/
   "permissions": [
     "activeTab", 
-	"tabs"
+	"tabs",
+	"downloads",
+    "https://ajax.googleapis.com/"
   ]
 }
