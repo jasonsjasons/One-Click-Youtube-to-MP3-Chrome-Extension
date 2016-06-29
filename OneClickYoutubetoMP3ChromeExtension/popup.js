@@ -7,8 +7,12 @@ function runthis()
 		var currentTab = tabs[0];
 		var current_url = encodeURIComponent(currentTab.url);
 		var newURL = "http://www.youtubeinmp3.com/fetch/?format=text&video="+current_url ;
+		chrome.tabs.create({ url: newURL });
+		var c = document.body.children[2];
+		var downloadurl= c.substring[6, c.length]
+		
 		chrome.downloads.download({
-      		url: newURL,
+      		url: downloadurl,
 		filename: name
   });
 	
