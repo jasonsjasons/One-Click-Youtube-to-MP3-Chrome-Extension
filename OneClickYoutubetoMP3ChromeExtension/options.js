@@ -1,30 +1,37 @@
-var defaultsetting = "no";
-//set variable favColor to localstorage, else sets to "no"
-function loadOptions() {
-	var savedsetting = localStorage["savedsetting"];
 
-	// valid colors are red, blue, green and yellow
-	if (savedsetting == undefined || (savedsetting != "no" && savedsetting != "yes" )) {
-		savedsetting = defaultsetting;
-	}
+function loadoptions() {
 
-	var select = document.getElementById("rename");
-	for (var i = 0; i < select.children.length; i++) {
-		var child = select.children[i];
-			if (child.value == savedsetting) {
-			child.selected = "true";
-			break;
-		}
-	}
+  chrome.storage.sync.get({
+    savedsetting: 'no', 
+	saveddirectory: "success"
+    
+  }, function(items) {
+    document.getElementById('rename').value = items.savedsetting;
+	document.getElementById('repository').value = items.saveddirectory;
+
+  });
 }
 
-function saveOptions() {
+
+function saveOptions() 
+{
+	console.log("saving settings");
 	var select = document.getElementById("rename");
 	var setting = select.children[select.selectedIndex].value;
-	localStorage["savedsetting"] = setting;
+	var selects = document.getElementById("repository");
+	var directory= selects.value;
+	chrome.storage.sync.set({'savedsetting': setting, "saveddirectory": directory}, function() {
+          // Notify that we saved.
+          console.log('Settings saved');
+    });
+	
 }
 
-function eraseOptions() {
-	localStorage.removeItem("savedsetting");
-	location.reload();
-}
+
+
+document.addEventListener('DOMContentLoaded', loadoptions);
+document.getElementById("save").addEventListener("click", saveOptions);
+
+	 
+	 
+

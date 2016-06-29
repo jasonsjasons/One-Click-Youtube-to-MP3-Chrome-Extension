@@ -1,9 +1,10 @@
+<!DOCTYPE html>
 <html>
 <head>
 	<title>Options</title>
-	<script type="text/javascript" src="options.js"></script>
+	
 </head>
-<body onload="loadOptions()">
+<body>
 	<h1>Options</h1>
 	<p> Do you want to rename the file? <p>
 	<select id="rename" >
@@ -12,10 +13,9 @@
 	</select>
 	<form>
 		Where do you want to save the song?:<br>
-		<input type="text" name="repository">
+		<input type="text" id="repository">
 	</form>
-	<button onclick="saveOptions()">Save</button>
-	<button onclick="eraseOptions()">Revert to default </button>
-	
+	<button id="save">Save</button>
+	<script src="options.js"></script>
 </body>
 </html>
