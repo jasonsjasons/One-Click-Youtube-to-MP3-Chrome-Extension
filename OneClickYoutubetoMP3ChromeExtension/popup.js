@@ -1,13 +1,23 @@
 function runthis()
 {
-	var name=document.getElementById('name').value 
+	var name=document.getElementById('name').value; 
 	
-	var current_url = encodeURIComponent(activeTab.url);	
-	var newURL = "http://www.youtubeinmp3.com/fetch/?format=text&video="+current_url ;
-	chrome.downloads.download({
-      url: newURL,
-      filename: name
+	var query = { active: true, currentWindow: true};
+	function callback(tabs) {
+		var currentTab = tabs[0];
+		var current_url = encodeURIComponent(currentTab.url);
+		var newURL = "http://www.youtubeinmp3.com/fetch/?format=text&video="+current_url ;
+		chrome.downloads.download({
+      		url: newURL,
+		filename: name
   });
+	
+		
+	}
+	
+	chrome.tabs.query(query, callback);
+	
+	
 	
 }
 document.getElementById("submit").addEventListener("click", runthis);
