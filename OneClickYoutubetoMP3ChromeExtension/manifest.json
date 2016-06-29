@@ -4,28 +4,38 @@
   "name": "Youtube downloader by Jason Jason (lum, seibel)",
   "description": "Click the button on a youtube link to download it as an mp3",
   "version": "1.0",
+  "options_page": "options.html",
 
   "browser_action": {
     "default_icon": "icon.png",
-    
+    "default_popup": "popup.html",
 	"default_title": "Youtube download"
   },
   "background": {
   "scripts": ["background.js"]
     
   },
-  /*"content_scripts": [
+  "content_scripts": [
         {
         "matches": [
             "http://www.youtubeinmp3.com/download*"
             ],
+        "js": ["contenttwo.js"],
+        "run_at": "document_end"         
+        },
+		{
+        "matches": [
+            "http://www.youtubeinmp3.com/fetch*"
+            ],
         "js": ["content.js"],
         "run_at": "document_end"         
         }
-    ],*/
+    ],
+	
   "permissions": [
     "activeTab", 
 	"tabs",
+	"storage",
 	"downloads",
     "https://ajax.googleapis.com/"
   ]

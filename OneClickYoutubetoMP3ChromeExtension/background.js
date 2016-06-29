@@ -1,55 +1,61 @@
-/*chrome.browserAction.onClicked.addListener(function(activeTab) {
-	 var current_url = encodeURIComponent(activeTab.url);
-	
-	 var newURL = "http://www.youtubeinmp3.com/fetch/?format=text&video="+current_url ;
-	 chrome.tabs.create({ url: newURL });
-	 console.log("got up to here");
-	 /*
-	 document.addEventListener('DOMContentLoaded', function () {
-		 console.log("url detected as loaded");
-	var c = document.body.children[4].textContent;
-     console.log(c);
-	 var downloadurl= c.substring[6, c.length];
-	 console.log(downloadurl);
-	 })
-  */  
+function runthis()
+{
+	console.log("message received");// works up to here	
+	var query = { active: true, currentWindow: true};
+	function callback(tabs) {
+		var currentTab = tabs[0];
+		var current_url = encodeURIComponent(currentTab.url);
+		var newURL = "http://www.youtubeinmp3.com/fetch/?format=text&video="+current_url ;
+		chrome.tabs.create({ url: newURL });		
+	}	
+	chrome.tabs.query(query, callback);	
+}
 
-	 
-	 /*chrome.downloads.download({
-  url: "http://www.youtubeinmp3.com/download/get/?i=fCU6CyNH2K81eOW2AhGUqF%2BYv9OuyAo8xfIYl314aE5VqW2NNGIxyqkGMS9EUTHwTgVd1ZyAYV32gAi1LYJWSA%3D%3D",
-  filename: "test.mp3"
-  });
-	 
-	 
- });*/
- chrome.browserAction.onClicked.addListener(function(activeTab) {
-	 
-	 console.log("got up to here");
-	  chrome.tabs.executeScript({file: "eventpage.js"}, function() {
-		console.log("script executed");
-        
-    });
-	 
-
-
-	 });
- chrome.runtime.onMessage.addListener(function(request) {				
+chrome.runtime.onMessage.addListener(
+  function(request) {
     if (request.greeting == "hello")
-	{
-	  console.log("Message received");
-		chrome.downloads.download({
-      		url: request.theurl,
-			filename: "test.mp3"		
-		});
-	}
-    console.log(request.theurl);
- });
-
-	 
-	 /*chrome.downloads.download({
-  url: "http://www.youtubeinmp3.com/download/get/?i=fCU6CyNH2K81eOW2AhGUqF%2BYv9OuyAo8xfIYl314aE5VqW2NNGIxyqkGMS9EUTHwTgVd1ZyAYV32gAi1LYJWSA%3D%3D",
-  filename: "test.mp3"
+      runthis();
   });
-	 
-	 
- });*/
+
+  
+  chrome.runtime.onMessage.addListener(function(request) {
+		
+    if (request.greeting == "ready")
+	{
+	  console.log("Message received");	  
+	chrome.storage.sync.get("name", function(items)
+	{
+	  console.log("syncing");
+	  console.log("the file name is: "+request.defaulttitle);
+	  thefilename=items.name;
+	  console.log("file name is :"+thefilename);
+	  console.log("file name length is: "+thefilename.length);
+	  if (thefilename.length ==0)
+	  {	  
+		console.log("123");	
+		
+			chrome.downloads.download({
+				url: request.theurl,
+				filename: request.defaulttitle+"fail.mp3"		
+			});
+		
+	  }
+	  else
+	  {
+		  console.log("321");
+		  chrome.downloads.download({
+      		url: request.theurl,
+			filename: thefilename+".mp3"
+		  });
+	  }
+	  
+	});
+	  
+		
+		
+		
+		
+	}
+  });
+   
+ 
