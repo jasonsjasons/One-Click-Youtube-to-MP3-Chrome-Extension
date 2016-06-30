@@ -27,6 +27,10 @@ chrome.runtime.onMessage.addListener(function(request) {
 	}
     else if (request.greeting == "ready")
 	{
+		chrome.storage.sync.set({'downloadurl': request.theurl,"defaulttitle": request.defaulttitle}, function() //saves info from the message
+		{
+			console.log('download info saved');
+		});
 	    console.log("Message received that its ready to download");	  
 		chrome.storage.sync.get("name", function(items)
 		{
@@ -34,17 +38,21 @@ chrome.runtime.onMessage.addListener(function(request) {
 			thefilename=items.name;
 			console.log("file name is :"+thefilename);
 			console.log("file name length is: "+thefilename.length);
+			chrome.downloads.onCreated.addListener(downloadlistener);
 				if (thefilename.length ==0)
-					{	  
-						console.log("123");			
+					{	
+						
+						console.log("123");	
+						console.log("downloading :"+request.theurl);
 						chrome.downloads.download({
 							url: request.theurl,
-							filename: request.defaulttitle+"fail.mp3"		
+							filename: request.defaulttitle+".mp3"		
 						});		
 					}	
 				else
 				{
 					console.log("321");
+					console.log("downloading :"+request.theurl);
 					chrome.downloads.download({
 						 url: request.theurl,
 						 filename: thefilename+".mp3"
@@ -66,7 +74,11 @@ function downloadlistener(downloaditem)
 					});
 					chrome.downloads.cancel(downloaditem.id, function ()
 					{
-						console.log("download stopped");
+						console.log("faulty download cancelled");
+					});
+					chrome.downloads.removeFile(downloaditem.id, function ()
+					{
+						console.log("faulty download stopped");
 						
 						chrome.runtime.onMessage.addListener(function(request)
 						{
@@ -85,28 +97,30 @@ function downloadlistener(downloaditem)
 						});
 					});
 				}
+				
 			});
+			if (downloaditem.id.totalBytes<=31,000)
+			{
+				console.log("faulty download");
+				chrome.downloads.cancel(downloaditem.id, function ()
+					{
+						console.log("faulty download stopped");
+					});
+				chrome.storage.sync.get(["downloadurl", "defaulttitle"],function(items)
+				{
+					
+				
+					chrome.runtime.sendMessage({greeting: "ready", theurl: items.downloadurl, defaulttitle: items.defaulttitle}, function() 
+					{
+						console.log("the download url is "+downloadurl);
+					});
+				});
+				
+			}
 			
 }
 
   
- // if content2 tells you its converting
-/*chrome.runtime.onMessage.addListener(function(request)//FOR SOME REASON THIS PART ISNT GETTING MESSAGE TO RETRY THE DOWNLOAD LINK FK THIS
-{
-			if (request.greeting=="downloadnow")
-			{
-				console.log("told to try the download again");
-				chrome.storage.sync.get("url", function(items)//url was saved during run this
-				{
-					chrome.downloads.download({
-						url: items.url,
-						filename: "test.mp3"		
-					});	 
-				});
-			}
-						
-});
-*/
 listenercountdownload = 0
  chrome.runtime.onMessage.addListener(function(request) {		
     if (request.greeting == "converting")
