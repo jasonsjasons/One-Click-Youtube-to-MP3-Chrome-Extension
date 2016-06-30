@@ -23,8 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function loadoptions() {
 
-  chrome.storage.sync.get(
-    "savedsetting", function(items) {
+  chrome.storage.sync.get({"savedsetting": 'no'}, function(items) {
 		savedsetting = items.savedsetting;
 		console.log(savedsetting);
 		if (savedsetting == 'no') {
