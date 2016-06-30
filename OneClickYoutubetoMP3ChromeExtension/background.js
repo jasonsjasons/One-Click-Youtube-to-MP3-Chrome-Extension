@@ -30,8 +30,7 @@ chrome.runtime.onMessage.addListener(function(request) {
 	    console.log("Message received that its ready to download");	  
 		chrome.storage.sync.get("name", function(items)
 		{
-			console.log("syncing");
-			console.log("the file name is: "+request.defaulttitle);
+			
 			thefilename=items.name;
 			console.log("file name is :"+thefilename);
 			console.log("file name length is: "+thefilename.length);
@@ -79,9 +78,9 @@ function downloadlistener(downloaditem)
 						chrome.runtime.sendMessage({greeting: "cancel"}, function() 
 						{
 							console.log("told to remove listener");
-							chrome.runtime.sendMessage({greeting: "downloadnow"}, function()
+							chrome.storage.sync.get(["url", "name"], function(items)//url was saved during run this
 							{
-								console.log("told to retry download");
+								chrome.tabs.create({ url: items.url });
 							});
 						});
 					});
@@ -90,39 +89,29 @@ function downloadlistener(downloaditem)
 			
 }
 
-
-/*
-{
-    if (tab.url.match("mail.google.com") && (info.status === "loading")) {
-        NewGmailURL("update", tab);
-        
-        chrome.tabs.onUpdated.removeListener(myListener);
-        return;
-    }
-});
-chrome.tabs.onUpdated.addListener(myListener);
-*/
   
  // if content2 tells you its converting
+/*chrome.runtime.onMessage.addListener(function(request)//FOR SOME REASON THIS PART ISNT GETTING MESSAGE TO RETRY THE DOWNLOAD LINK FK THIS
+{
+			if (request.greeting=="downloadnow")
+			{
+				console.log("told to try the download again");
+				chrome.storage.sync.get("url", function(items)//url was saved during run this
+				{
+					chrome.downloads.download({
+						url: items.url,
+						filename: "test.mp3"		
+					});	 
+				});
+			}
+						
+});
+*/
  chrome.runtime.onMessage.addListener(function(request) {		
     if (request.greeting == "converting")
 	{
 		console.log("downloadnow listener added");
-		chrome.runtime.onMessage.addListener(function(request2)//FOR SOME REASON THIS PART ISNT GETTING MESSAGE TO RETRY THE DOWNLOAD LINK FK THIS
-		{
-					if (request2.greeting=="downloadnow")
-					{
-						console.log("told to try the download again");
-						chrome.storage.sync.get("url", function(items)//url was saved during run this
-						{
-							chrome.downloads.download({
-								url: items.url,
-								filename: "test.mp3"		
-							});	 
-						});
-					}
-						
-		});
+
 		chrome.downloads.onCreated.addListener(downloadlistener);
 		
 		
