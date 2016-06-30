@@ -22,9 +22,25 @@ title = title.replace(/\=/g,'');
 title = title.replace(/\'/g,'');
 title = title.replace(/\"/g,'');
 title = title.replace(/\s/g, '');
-
+title = title.replace(/\|g, '');
 console.log(title+ "is title");
 
 chrome.runtime.sendMessage({greeting: "ready", theurl: downloadurl, defaulttitle: title}, function() {
 	console.log("success");
 });
+
+chrome.runtime.sendMessage({greeting: "closetabsplease"}, function() {
+	console.log("success to close tabs please");
+});
+
+
+/* useless 
+var query = {active: true, currentWindow: true};
+function callback2(tabs) {
+	var currentTab = tabs[0];
+	chrome.tabs.remove(currentTab);
+}
+
+chrome.tabs.query(query, callback2);
+*/
+
