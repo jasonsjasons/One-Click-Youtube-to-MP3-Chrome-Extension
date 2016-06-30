@@ -5,7 +5,7 @@
   "description": "Click the button while on a youtube video page to download it as an mp3 in a new tab",
   "version": "2.0",
   "options_page": "options.html",
-
+  "icons": { "128": "icon1.png"},
   "browser_action": {
     "default_icon": "icon.png",
     "default_popup": "popup.html",
