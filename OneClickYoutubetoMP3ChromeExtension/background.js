@@ -107,15 +107,57 @@ function downloadlistener(downloaditem)
 						
 });
 */
+listenercountdownload = 0
  chrome.runtime.onMessage.addListener(function(request) {		
     if (request.greeting == "converting")
 	{
+		if (listenercountdownload != 1) {
 		console.log("downloadnow listener added");
+		listenercountdownload = 1
+		
 
 		chrome.downloads.onCreated.addListener(downloadlistener);
 		
-		
+		}
 		
 		
 	}
  });
+ 
+ // below code should close the two tabs that were opened, or just one if there was no convert
+ 
+ chrome.runtime.onMessage.addListener(function(request) {		
+    if (request.greeting == "closetabsplease") 
+	{
+		
+	var query2 = {url: "http://www.youtubeinmp3.com/download/*"};
+	function callback3(tabs) {
+		var oldTab = tabs[0];
+		var oldTabid = oldTab.id;
+		chrome.tabs.remove(oldTabid);
+		console.log("did i remove old tab");
+		
+		var query = {url: "http://www.youtubeinmp3.com/fetch/*"};
+		function callback2(tabs) {
+			var currentTab = tabs[0];
+			var currentTabid = currentTab.id;
+			chrome.tabs.remove(currentTabid);
+		}
+		
+		chrome.tabs.query(query, callback2);
+		
+}
+
+	chrome.tabs.query(query2, callback3);
+	var query = {url: "http://www.youtubeinmp3.com/fetch/*"};
+	function callback2(tabs) {
+		var currentTab = tabs[0];
+		var currentTabid = currentTab.id;
+		chrome.tabs.remove(currentTabid);
+	}
+		
+	chrome.tabs.query(query, callback2);
+	}
+});
+
+
