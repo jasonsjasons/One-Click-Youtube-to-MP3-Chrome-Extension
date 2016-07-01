@@ -31,9 +31,16 @@ chrome.runtime.sendMessage({greeting: "ready", theurl: downloadurl, defaulttitle
 	console.log("success");
 });
 
-chrome.runtime.sendMessage({greeting: "closetabsplease"}, function() {
-	console.log("success to close tabs please");
-});
+chrome.runtime.onMessage.addListener(function(request)
+	{
+		if (request.greeting=="again")
+		{
+				chrome.runtime.sendMessage({greeting: "ready", theurl: downloadurl, defaulttitle: title}, function() {
+				console.log("received the message to redownload");
+				
+			});
+		}
+	});
 
 
 /* useless 
