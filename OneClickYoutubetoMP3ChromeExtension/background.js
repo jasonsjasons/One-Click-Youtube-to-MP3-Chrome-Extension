@@ -78,7 +78,7 @@ function downloadlistener(downloaditem)
 					});
 					chrome.downloads.cancel(downloaditem.id, function ()
 					{
-						console.log("faulty download cancelled");
+						console.log("wrong");
 					});
 					chrome.downloads.removeFile(downloaditem.id, function ()
 					{
@@ -101,30 +101,61 @@ function downloadlistener(downloaditem)
 							});
 						});
 					});
-				}
-				
-			});
-			if (downloaditem.totalBytes<=31000)
-			{
-				console.log("faulty download");
-				chrome.downloads.cancel(downloaditem.id, function ()
+				} else {
+					if (downloaditem.totalBytes<=31000)
+					{
+					console.log("faulty download");
+					chrome.downloads.cancel(downloaditem.id, function ()
 					{
 						console.log("faulty download stopped");
 						
 					});
-				chrome.storage.sync.get(["downloadurl", "defaulttitle"],function(items)
-				{
+					chrome.storage.sync.get(["downloadurl", "defaulttitle"],function(items)
+					{
 					
 				
-					chrome.runtime.sendMessage({greeting: "ready", theurl: items.downloadurl, defaulttitle: items.defaulttitle}, function() 
-					{
+					chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+						chrome.tabs.sendMessage(tabs[0].id, {greeting: "again"}, function(response) {
 						
-						console.log("the download url is "+downloadurl);
-						
+  });
+});
 					});
-				});
 				
-			}
+					} else {
+						var query2 = {url: "http://www.youtubeinmp3.com/download/*"};
+						function callback3(tabs) {
+		var oldTab = tabs[0];
+		var oldTabid = oldTab.id;
+		chrome.tabs.remove(oldTabid);
+		console.log("did i remove old tab");
+		
+		var query = {url: "http://www.youtubeinmp3.com/fetch/*"};
+		function callback2(tabs) {
+			var currentTab = tabs[0];
+			var currentTabid = currentTab.id;
+			chrome.tabs.remove(currentTabid);
+		}
+		
+		chrome.tabs.query(query, callback2);
+		
+}
+
+	chrome.tabs.query(query2, callback3);
+	var query = {url: "http://www.youtubeinmp3.com/fetch/*"};
+	function callback2(tabs) {
+		var currentTab = tabs[0];
+		var currentTabid = currentTab.id;
+		chrome.tabs.remove(currentTabid);
+	}
+		
+	chrome.tabs.query(query, callback2);
+					} //else statement ends here
+					
+					
+				}
+				
+			});
+			
 			
 }
 
