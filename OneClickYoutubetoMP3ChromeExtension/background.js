@@ -99,7 +99,7 @@ function downloadlistener(downloaditem)
 				}
 				
 			});
-			if (downloaditem.id.totalBytes<=31,000)
+			if (downloaditem.totalBytes<=31,000)
 			{
 				console.log("faulty download");
 				chrome.downloads.cancel(downloaditem.id, function ()
