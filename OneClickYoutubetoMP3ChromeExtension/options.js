@@ -2,7 +2,7 @@
 function loadoptions() {
 
   chrome.storage.sync.get({
-    savedsetting: 'no'
+    savedsetting: 'yes'
 	//saveddirectory: "success"
     
   }, function(items) {

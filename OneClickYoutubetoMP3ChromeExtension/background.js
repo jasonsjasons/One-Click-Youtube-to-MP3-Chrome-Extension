@@ -50,7 +50,7 @@ chrome.runtime.onMessage.addListener(function(request) {
 						console.log("downloading :"+request.theurl);
 						chrome.downloads.download({
 							url: request.theurl,
-							filename: request.defaulttitle+".mp3"		
+							filename: "youtubemp3/"+request.defaulttitle+".mp3"		
 						});		
 					}	
 				else
@@ -59,7 +59,7 @@ chrome.runtime.onMessage.addListener(function(request) {
 					console.log("downloading :"+request.theurl);
 					chrome.downloads.download({
 						 url: request.theurl,
-						 filename: thefilename+".mp3"
+						 filename: "youtubemp3/"+thefilename+".mp3"
 					});
 				}	
 		});
