@@ -27,6 +27,10 @@ chrome.runtime.onMessage.addListener(function(request) {
 	}
     else if (request.greeting == "ready")
 	{
+		chrome.storage.sync.set({'downloadurl': request.theurl,"defaulttitle": request.defaulttitle}, function() //saves info from the message
+		{
+			console.log('download info saved');
+		});
 	    console.log("Message received that its ready to download");	  
 		chrome.storage.sync.get("name", function(items)
 		{
@@ -34,17 +38,25 @@ chrome.runtime.onMessage.addListener(function(request) {
 			thefilename=items.name;
 			console.log("file name is :"+thefilename);
 			console.log("file name length is: "+thefilename.length);
+			if (listenercountdownload != 1) {
+		console.log("downloadnow listener added");
+		listenercountdownload = 1;
+			chrome.downloads.onCreated.addListener(downloadlistener);
+			}
 				if (thefilename.length ==0)
-					{	  
-						console.log("123");			
+					{	
+						
+						console.log("123");	
+						console.log("downloading :"+request.theurl);
 						chrome.downloads.download({
 							url: request.theurl,
-							filename: request.defaulttitle+"fail.mp3"		
+							filename: request.defaulttitle+".mp3"		
 						});		
 					}	
 				else
 				{
 					console.log("321");
+					console.log("downloading :"+request.theurl);
 					chrome.downloads.download({
 						 url: request.theurl,
 						 filename: thefilename+".mp3"
@@ -66,13 +78,18 @@ function downloadlistener(downloaditem)
 					});
 					chrome.downloads.cancel(downloaditem.id, function ()
 					{
-						console.log("download stopped");
+						console.log("wrong");
+					});
+					chrome.downloads.removeFile(downloaditem.id, function ()
+					{
+						console.log("faulty download stopped");
 						
 						chrome.runtime.onMessage.addListener(function(request)
 						{
 							if (request.greeting=="cancel")
 							{
-								removeListener(downloadlistener);
+								console.log("is remove listern working;")
+								Event.removeListener(downloadlistener);
 							}
 						});
 						chrome.runtime.sendMessage({greeting: "cancel"}, function() 
@@ -84,54 +101,29 @@ function downloadlistener(downloaditem)
 							});
 						});
 					});
-				}
-			});
-			
-}
-
-  
- // if content2 tells you its converting
-/*chrome.runtime.onMessage.addListener(function(request)//FOR SOME REASON THIS PART ISNT GETTING MESSAGE TO RETRY THE DOWNLOAD LINK FK THIS
-{
-			if (request.greeting=="downloadnow")
-			{
-				console.log("told to try the download again");
-				chrome.storage.sync.get("url", function(items)//url was saved during run this
-				{
-					chrome.downloads.download({
-						url: items.url,
-						filename: "test.mp3"		
-					});	 
-				});
-			}
+				} else {
+					if (downloaditem.totalBytes<=31000)
+					{
+					console.log("faulty download");
+					chrome.downloads.cancel(downloaditem.id, function ()
+					{
+						console.log("faulty download stopped");
 						
+					});
+					chrome.storage.sync.get(["downloadurl", "defaulttitle"],function(items)
+					{
+					
+				
+					chrome.tabs.query({url: "http://www.youtubeinmp3.com/fetch/*"}, function(tabs) {
+						chrome.tabs.sendMessage(tabs[0].id, {greeting: "again"}, function(response) {
+						
+  });
 });
-*/
-listenercountdownload = 0
- chrome.runtime.onMessage.addListener(function(request) {		
-    if (request.greeting == "converting")
-	{
-		if (listenercountdownload != 1) {
-		console.log("downloadnow listener added");
-		listenercountdownload = 1
-		
-
-		chrome.downloads.onCreated.addListener(downloadlistener);
-		
-		}
-		
-		
-	}
- });
- 
- // below code should close the two tabs that were opened, or just one if there was no convert
- 
- chrome.runtime.onMessage.addListener(function(request) {		
-    if (request.greeting == "closetabsplease") 
-	{
-		
-	var query2 = {url: "http://www.youtubeinmp3.com/download/*"};
-	function callback3(tabs) {
+					});
+				
+					} else {
+						var query2 = {url: "http://www.youtubeinmp3.com/download/*"};
+						function callback3(tabs) {
 		var oldTab = tabs[0];
 		var oldTabid = oldTab.id;
 		chrome.tabs.remove(oldTabid);
@@ -157,7 +149,32 @@ listenercountdownload = 0
 	}
 		
 	chrome.tabs.query(query, callback2);
+					} //else statement ends here
+					
+					
+				}
+				
+			});
+			
+			
+}
+
+  
+listenercountdownload = 0;
+ chrome.runtime.onMessage.addListener(function(request) {		
+    if (request.greeting == "converting")
+	{
+		if (listenercountdownload != 1) {
+		console.log("downloadnow listener added");
+		listenercountdownload = 1
+		
+
+		chrome.downloads.onCreated.addListener(downloadlistener);
+		
+		}
+		
+		
 	}
-});
-
-
+ });
+ 
+ 
