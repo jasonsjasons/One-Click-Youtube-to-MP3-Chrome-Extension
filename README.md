@@ -3,7 +3,7 @@ This is a chrome extension to download youtube songs as mp3's, made by Jason Lum
 
 To install you have 2  options:
 
-  Option 1: download the files in the youtube to mp3 folder and extract them into a folder into your computer.(note that you have to extract the files in the youtubetomp3chromeextension folder within the zip). Remember the folder name and location, and go into chrome, click the 3 horizontal bars (settings) on the top right under the X button, go to more tools, and click extensions. Once there, check the developer mode box and click load unpacked extension, and select the folder where you saved the files. 
+  Option 1: download the files in the youtube to mp3 folder and extract them into a folder into your computer.(note that you have to extract the 11 files in the youtubetomp3chromeextension folder within the zip). Remember the folder name and location, and go into chrome, click the 3 horizontal bars (settings) on the top right under the X button, go to more tools, and click extensions. Once there, check the developer mode box and click load unpacked extension, and select the folder where you saved the files. 
   
   Option 2: CLick the .crx file thats not in the folder, press view raw and save it to your computer. Go into chrome, click the 3 horizontal bars (settings) on the top right under the X button, go to more tools, and click extensions. Drag and drop the crx file into that page. Note that doing it this way doesnt let you disable and then reenable the extension, you wil need to redrag the file if you disable and decide to enable again. 
 
