@@ -38,7 +38,11 @@ chrome.runtime.onMessage.addListener(function(request) {
 			thefilename=items.name;
 			console.log("file name is :"+thefilename);
 			console.log("file name length is: "+thefilename.length);
+			if (listenercountdownload != 1) {
+		console.log("downloadnow listener added");
+		listenercountdownload = 1;
 			chrome.downloads.onCreated.addListener(downloadlistener);
+			}
 				if (thefilename.length ==0)
 					{	
 						
@@ -84,7 +88,8 @@ function downloadlistener(downloaditem)
 						{
 							if (request.greeting=="cancel")
 							{
-								removeListener(downloadlistener);
+								console.log("is remove listern working;")
+								Event.removeListener(downloadlistener);
 							}
 						});
 						chrome.runtime.sendMessage({greeting: "cancel"}, function() 
@@ -99,12 +104,13 @@ function downloadlistener(downloaditem)
 				}
 				
 			});
-			if (downloaditem.totalBytes<=31,000)
+			if (downloaditem.totalBytes<=31000)
 			{
 				console.log("faulty download");
 				chrome.downloads.cancel(downloaditem.id, function ()
 					{
 						console.log("faulty download stopped");
+						
 					});
 				chrome.storage.sync.get(["downloadurl", "defaulttitle"],function(items)
 				{
@@ -112,7 +118,9 @@ function downloadlistener(downloaditem)
 				
 					chrome.runtime.sendMessage({greeting: "ready", theurl: items.downloadurl, defaulttitle: items.defaulttitle}, function() 
 					{
+						
 						console.log("the download url is "+downloadurl);
+						
 					});
 				});
 				
@@ -121,7 +129,7 @@ function downloadlistener(downloaditem)
 }
 
   
-listenercountdownload = 0
+listenercountdownload = 0;
  chrome.runtime.onMessage.addListener(function(request) {		
     if (request.greeting == "converting")
 	{
