@@ -102,7 +102,7 @@ function downloadlistener(downloaditem)
 						});
 					});
 				} else {
-					if (downloaditem.totalBytes<=31000)
+					if (downloaditem.totalBytes<=31000 && downloaditem.url== "http://www.youtubeinmp3.com/fetch/*")
 					{
 					console.log("faulty download");
 					chrome.downloads.cancel(downloaditem.id, function ()
