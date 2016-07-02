@@ -104,7 +104,7 @@ function downloadlistener(downloaditem)
 				} else {
 					console.log("size :"+downloaditem.totalBytes);
 					console.log(downloaditem.url);
-					if (downloaditem.totalBytes<=31000 && downloaditem.url.indexOf("http://www.youtubeinmp3.com"!=-1))
+					if (downloaditem.totalBytes<=31000 && downloaditem.url.indexOf("http://www.youtubeinmp3.com")!=-1)
 					{
 					console.log("faulty download");
 					chrome.downloads.cancel(downloaditem.id, function ()
