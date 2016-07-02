@@ -82,7 +82,7 @@ function downloadlistener(downloaditem)
 					});
 					chrome.downloads.removeFile(downloaditem.id, function ()
 					{
-						console.log("faulty download stopped");
+						console.log("wrong download stopped");
 						
 						chrome.runtime.onMessage.addListener(function(request)
 						{
@@ -102,7 +102,9 @@ function downloadlistener(downloaditem)
 						});
 					});
 				} else {
-					if (downloaditem.totalBytes<=31000 && downloaditem.url== "http://www.youtubeinmp3.com/fetch/*")
+					console.log("size :"+downloaditem.totalBytes);
+					console.log(downloaditem.url);
+					if (downloaditem.totalBytes<=31000 && downloaditem.url.indexOf("http://www.youtubeinmp3.com"!=-1))
 					{
 					console.log("faulty download");
 					chrome.downloads.cancel(downloaditem.id, function ()
